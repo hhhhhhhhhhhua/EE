@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>calculator</title>
+  <link rel="stylesheet" href="interface.css">
+</head>
+<body>
+    <div class="center">
+        <form name="Calculator">
+            <input type="button" id="clear" class="btn other" value="AC"/>
+            <input type="text" id="display"/>
+            <br />
+            <input
+                type="button"
+                class="btn number"
+                value="7"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="8"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="9"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn operator"
+                value="+"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn operator"
+                value="tan"
+                onclick="TrigonometricFunction('tan');"
+                onclick="get(this.value);"
+               
+            />
+            <br/>
+            <input
+                type="button"
+                class="btn number"
+                value="4"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="5"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="6"
+                onclick="get(this.value);"
+            />
+            <input
+            type="button"
+            class="btn operator"
+            value="-"
+            onclick="get(this.value);"
+            />
+            
+            <input
+            type="button"
+            class="btn operator"
+            value="sin"
+            onclick="TrigonometricFunction('sin');"
+        />
+            <br/>
+            <input
+                type="button"
+                class="btn number"
+                value="1"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="2"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="3"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn operator"
+                value="*"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn operator"
+                value="cos"
+                onclick="TrigonometricFunction('cos');"
+            />
+            <br/>
+            <input
+                type="button"
+                class="btn operator"
+                value="."
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn number"
+                value="0"
+                onclick="get(this.value);"
+            />
+            <input
+                type="button"
+                class="btn other"
+                value="="
+                onclick="calculates();"
+            />
+            <input
+                type="button"
+                class="btn operator"
+                value="/"
+                onclick="get(this.value);"
+            />
+            <input 
+                type="button" 
+                class="btn operator" 
+                value="ANS"
+                onclick="showHistory();"
+            />
+            <br/>
+            <input type="text" id="find"/>
+        </form>
+    </div>
+  
+<script>
+    document.getElementById("clear").addEventListener("click",function(){
+        document.getElementById("display").value = "";
+    })
+
+    function get(value){
+        document.getElementById("display").value += value;
+    }
+    
+    function calculates(){
+        let result = 0;
+        result = document.getElementById("display").value;
+        document.getElementById("display").value = "";
+        document.getElementById("display").value = eval(result);
+    }
+
+    const TrigonometricFunction = (func) => {
+        let message = document.getElementById("display").value;
+        const value = parseFloat(document.getElementById("display").value);
+        if (!isNaN(value)) {
+            var radian = value * Math.PI.toFixed(2) / 180;
+            let result = "";
+            switch (func) {
+                case "sin":
+                    document.getElementById("display").value = Math.sin(radian).toFixed(2);
+                    result = "sin(" + message + ") = " + document.getElementById("display").value;
+                    break;
+                case "cos":
+                    document.getElementById("display").value = Math.cos(radian).toFixed(2);
+                    result = "cos(" + message + ") = " + document.getElementById("display").value;
+                    break;
+                case "tan":
+                    document.getElementById("display").value = Math.tan(radian).toFixed(2);
+                    result = "tan(" + message + ") = " + document.getElementById("display").value;
+                    break;
+                }
+            saveHistory(result);
+        } else {
+            currentNumber.value = "Error";
+            let result = func + "(" + message + ") = " + currentNumber.value;
+            saveHistory(result);
+  }
+};
+
+const showHistory = () => {
+  listHistoryLastTen();
+  showHistoryFlag.value = true;
+};
+
+const listHistoryLastTen = () => {
+  calculatorApi.listHistoryLastTen().then(({ data }) => {
+    if (data.code === 200) {
+      historyData.value = data.data;
+    } else {
+      message.error(data.message);
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+};
+
+const saveHistory = (message) => {
+  let params = {
+    message: message
+  };
+ 
+  calculatorApi.insert(params).then(({ data }) => {
+    if (data.code === 200) {
+      historyData.value = data.data;
+    } else {
+      message.error(data.message);
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+};
+
+
+
+</script> 
+
+</body>
+</html>
