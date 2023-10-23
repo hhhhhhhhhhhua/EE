@@ -164,19 +164,19 @@
         let message = document.getElementById("display").value;
         const value = parseFloat(document.getElementById("display").value);
         if (!isNaN(value)) {
-            var radian = value * Math.PI.toFixed(2) / 180;
+            var radian = value * Math.PI.toFixed(5) / 180;
             let result = "";
             switch (func) {
                 case "sin":
-                    document.getElementById("display").value = Math.sin(radian).toFixed(2);
+                    document.getElementById("display").value = Math.sin(radian).toFixed(5);
                     result = "sin(" + message + ") = " + document.getElementById("display").value;
                     break;
                 case "cos":
-                    document.getElementById("display").value = Math.cos(radian).toFixed(2);
+                    document.getElementById("display").value = Math.cos(radian).toFixed(5);
                     result = "cos(" + message + ") = " + document.getElementById("display").value;
                     break;
                 case "tan":
-                    document.getElementById("display").value = Math.tan(radian).toFixed(2);
+                    document.getElementById("display").value = Math.tan(radian).toFixed(5);
                     result = "tan(" + message + ") = " + document.getElementById("display").value;
                     break;
                 }
